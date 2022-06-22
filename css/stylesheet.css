@@ -1,0 +1,49 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+#container {
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+
+button {
+    font-size: 12px;
+}
+
+
+/* styling for chosen layout */
+.input-stacked, .input-sidebyside,
+.output-stacked, .output-sidebyside {
+    margin: 2vh 0;
+}
+.input-stacked .heading, .output-stacked .heading,
+.input-sidebyside .heading, .output-sidebyside .heading{
+    display: block;
+    margin-bottom: 2vh;
+    background-color: #ccc;
+}
+.input-stacked textarea, .output-stacked textarea {
+    width: 75vw;
+    height: 38vh;
+    resize: none;
+}
+
+.input-sidebyside, .input-sidebyside textarea, .output-sidebyside, .output-sidebyside textarea  {
+    width: 42vw;
+    height: 80vh;
+    display: inline-block;
+    vertical-align: top;
+    resize: none;
+}
+
+.output-sidebyside {
+    margin-left: .5vw;
+}
+
+.left, .right {
+    display: inline-block;
+    width: 42vw;
+}
