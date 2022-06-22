@@ -18,20 +18,25 @@ const readFile = (file) => {
 
 // run file export process when load event triggers
 const fileExport = (data) => {
-  
     const base64data = readEMLFile(data);
-    //const workBookData = formatWorkBookData(workBook);
-    //const finalData = formatOutput(workBookData[0]);
     saveOutput(base64data);
 }
 
 // read the inbound data
 const readEMLFile = (data) => {
-    const regex = /(?<=base64\r\n\r\n)[^=]*=+/g
+    const regex = /(?<=base64\r\n\r\n)[^--]+/g
     const datas = data.match(regex);
     let dataToReturn;
     datas.forEach(data => {
-        let decodedData = window.atob(data);
+        // code used below is from here (from Jackie Han) : https://stackoverflow.com/questions/30106476/using-javascripts-atob-to-decode-base64-doesnt-properly-decode-utf-8-strings
+        const text = atob(data);
+        const length = text.length;
+        const bytes = new Uint8Array(length);
+        for (let i = 0; i < length; i++) {
+            bytes[i] = text.charCodeAt(i);
+        }
+        const decoder = new TextDecoder(); // default is utf-8
+        let decodedData = decoder.decode(bytes);
         if (decodedData.indexOf('<DOCTYPE') >= 0 || decodedData.indexOf('<body') >= 0) {
             dataToReturn = decodedData;
         }
@@ -39,7 +44,6 @@ const readEMLFile = (data) => {
     return dataToReturn;
 }
 
-            
 // save file to computer
 const saveOutput = (data) => { 
     const blob = new Blob([data], { type: "text/html"});
