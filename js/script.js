@@ -25,7 +25,6 @@ const readFile = () => {
     }
 }
 
-
 // run file export process when load event triggers
 const fileExport = (data, fileName) => {
     const base64data = readEMLFile(data);
@@ -38,7 +37,7 @@ const readEMLFile = (data) => {
     const datas = data.match(regex);
     let dataToReturn;
     datas.forEach(data => {
-        // code used below is from here (from Jackie Han) : https://stackoverflow.com/questions/30106476/using-javascripts-atob-to-decode-base64-doesnt-properly-decode-utf-8-strings
+        // code used below is from Jackie Han : https://stackoverflow.com/questions/30106476/using-javascripts-atob-to-decode-base64-doesnt-properly-decode-utf-8-strings
         const text = atob(data);
         const length = text.length;
         const bytes = new Uint8Array(length);
