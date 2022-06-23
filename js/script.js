@@ -4,22 +4,32 @@ const formatBtn =  document.querySelector('.format');
 const fileSelector = document.getElementById('file-selector');
 const reader = new FileReader();
 
-// detect when file is inserted
-fileSelector.addEventListener('change', (event) => {
-    const fileList = event.target.files[0];
-    readFile(fileList);
-});
-            
-//read file as text which then fires load event to send data to formatting 
-const readFile = (file) => { 
-    reader.addEventListener('load', (event) => fileExport(event.target.result));
-    reader.readAsText(file);
+const readFile = () => {
+    const [file] = document.querySelector('input[type=file]').files;
+    const reader = new FileReader();
+    let fileName;
+  
+    reader.addEventListener("load", () => {
+        if (fileName.indexOf('.eml') < 0) {
+            alert('.eml files only');
+            fileSelector.value = '';
+            return;
+        }  
+        fileExport(reader.result, fileName);
+
+    }, false);
+
+    if (file) {
+      reader.readAsText(file);
+      fileName = file.name;
+    }
 }
 
+
 // run file export process when load event triggers
-const fileExport = (data) => {
+const fileExport = (data, fileName) => {
     const base64data = readEMLFile(data);
-    saveOutput(base64data);
+    saveOutput(base64data, fileName);
 }
 
 // read the inbound data
@@ -45,17 +55,19 @@ const readEMLFile = (data) => {
 }
 
 // save file to computer
-const saveOutput = (data) => { 
+const saveOutput = (data, fileName) => { 
+    fileName = fileName.split('.eml')[0];
     const blob = new Blob([data], { type: "text/html"});
     const anchor = document.createElement("a");
     const getDateTime = new Date().toLocaleString('en-gb').split(", ");
     const date = getDateTime[0].split("/").reverse().join("");
     const time = getDateTime[1].split(":").join("");
-    anchor.download = `converted_email_${date}${time}.html`;
+    anchor.download = `${fileName}_converted_${date}${time}.html`;
     anchor.href = window.URL.createObjectURL(blob);
     anchor.target ="_blank";
     anchor.style.display = "none"; // just to be safe!
     document.body.appendChild(anchor);
     anchor.click();
     document.body.removeChild(anchor);
+    fileSelector.value = '';
 }
