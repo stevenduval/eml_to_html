@@ -1,11 +1,9 @@
 //set reusable variables 
-const reloadBtn =  document.querySelector('.reload');
-const formatBtn =  document.querySelector('.format');
 const fileSelector = document.getElementById('file-selector');
 const reader = new FileReader();
 
 const readFile = () => {
-    const [file] = document.querySelector('input[type=file]').files;
+    const [file] = fileSelector.files;
     const reader = new FileReader();
     let fileName;
   
