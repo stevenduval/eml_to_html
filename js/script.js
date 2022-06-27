@@ -1,4 +1,4 @@
-//set reusable variables 
+// set reusable variables 
 const fileSelector = document.getElementById('file-selector');
 const reader = new FileReader();
 
@@ -52,7 +52,7 @@ const readEMLFile = (data) => {
             data = data.replace(/(\r\n|\n|\r)/g, "\n");
             // replace equals sign at end-of-line with nothing
             data = data.replace(/=\n/g, "");
-            //replace added line breaks with nothing
+            // replace added line breaks with nothing
             data = data.replace(/\n/g, "");
             // replace all percent signs with something we can find
             data = data.replace(/%/g, "PERCENTSIGNREPLACED");
@@ -62,7 +62,7 @@ const readEMLFile = (data) => {
             data = decodeURIComponent(data);
             // change the changed percent signs back
             data = data.replace(/PERCENTSIGNREPLACED/g, "%");
-            // return the data
+            // set data to be returned
             dataToReturn = data;
         // otherwise its likely base64 encoded    
         } else {
