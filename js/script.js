@@ -48,17 +48,25 @@ const readEMLFile = (data) => {
             dataToReturn = data;
         // if quoted-printable run the following    
         } else if (data.indexOf('=3D"') >= 0) {
+            console.log(data);
             // normalise end-of-line signals 
             data = data.replace(/(\r\n|\n|\r)/g, "\n");
             // replace equals sign at end-of-line with nothing
             data = data.replace(/=\n/g, "");
             // replace added line breaks with nothing
             data = data.replace(/\n/g, "");
+            // replace %A9 with copy symbol;
+            data = data.replace(/=A9/g, "&copy;");
             // replace all percent signs with something we can find
             data = data.replace(/%/g, "PERCENTSIGNREPLACED");
+            // replace =95 with space;
+            data = data.replace(/=95/g, "&nbsp;");
+            // replace =AE with registered symbol;
+            data = data.replace(/=AE/g, "&reg;");
             // replace all equal signs with percent sign
             data = data.replace(/=/g, "%");
             // decode the html
+            console.log(data);
             data = decodeURIComponent(data);
             // change the changed percent signs back
             data = data.replace(/PERCENTSIGNREPLACED/g, "%");
